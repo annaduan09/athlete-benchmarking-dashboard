@@ -1,0 +1,74 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Penn Football Strength Benchmarking</title>
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+
+    <body>
+        <main>
+            <div class="header">
+                <h1>Penn Football Performance Benchmarking</h1>
+            </div>
+
+            <div class="navbar">
+                <a href="index.html">BENCHMARK ATHLETE</a>
+                <a href="login.html">TRACK TRENDS</a>
+                <a href="register.html">VIEW DATA</a>
+                <a href="about.html">ABOUT</a>
+            </div>
+
+        <section class="benchmark-page">
+            <section class="benchmark-input">
+                <h3>Athlete Info</h3>
+                <form action="benchmark.php" method="post">  
+                    <label for="position">Position:</label><br></br>
+                    <div class="radio-group">
+                    QB<input type="radio" id="position" name="position" value="QB" required>
+                    RB<input type="radio" id="position" name="position" value="RB" required>
+                    WR<input type="radio" id="position" name="position" value="WR" required>
+                    TE<input type="radio" id="position" name="position" value="TE" required>
+                    OL<input type="radio" id="position" name="position" value="OL" required>
+                    DL<input type="radio" id="position" name="position" value="DL" required>
+                    LB<input type="radio" id="position" name="position" value="LB" required>
+                    DB<input type="radio" id="position" name="position" value="DB" required>
+                    SP<input type="radio" id="position" name="position" value="SP" required>
+                    </div>
+                    <label for="height">Height (in):</label>
+                    <input type="number" id="height" name="height" required><br></br>
+                    <label for="weight">Weight:</label>
+                    <input type="number" id="weight" name="weight" required><br></br>
+                    <label for="back-squat">Back Squat:</label>
+                    <input type="number" id="back-squat" name="back-squat" required><br></br>
+                    <label for="bench-press">Bench Press:</label>
+                    <input type="number" id="bench-press" name="bench-press" required><br></br>
+                    <label for="power-clean">Power Clean:</label>
+                    <input type="number" id="power-clean" name="power-clean" required><br></br>
+                    <label for="40-yard-dash">40 Yard Dash:</label>
+                    <input type="number" id="40-yard-dash" name="40-yard-dash" required><br></br>
+                    <br></br>
+                    <button type="submit">Compare</button>
+                </form>
+            </section>
+            
+            <section class="benchmark-chart-area">
+                <div class="chart">
+                    <h4>Back Squat</h4>
+                </div>
+                <div class="chart">
+                    <h4>Bench Press</h4>
+                </div>
+                <div class="chart">
+                    <h4>Power Clean</h4>
+                </div>
+                <div class="chart">
+                    <h4>40 Yard Dash</h4>
+                </div>
+            </section>
+
+        </section>
+        
+        </main>
+    </body>
