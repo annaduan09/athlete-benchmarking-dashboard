@@ -10,7 +10,8 @@
     <body>
         <main>
             <div class="header">
-                <h1>Penn Football Performance Benchmarking</h1>
+                <img src="www/penn_shield.svg" alt="Penn Football Logo">
+                <h1>Penn Football Athlete Benchmarking</h1>
             </div>
 
             <div class="navbar">
@@ -21,10 +22,11 @@
             </div>
 
         <section class="benchmark-page">
-            <section class="benchmark-input">
-                <h3>Athlete Info</h3>
+            <section class="benchmark-menu">
+                <h2>Athlete Stats</h2>
+                <p>Enter athlete info to compare against their position group</p>
                 <form action="benchmark.php" method="post">  
-                    <label for="position">Position:</label><br></br>
+                    <label for="position">Position Group</label><br></br>
                     <div class="radio-group">
                     QB<input type="radio" id="position" name="position" value="QB" required>
                     RB<input type="radio" id="position" name="position" value="RB" required>
@@ -36,39 +38,35 @@
                     DB<input type="radio" id="position" name="position" value="DB" required>
                     SP<input type="radio" id="position" name="position" value="SP" required>
                     </div>
-                    <label for="height">Height (in):</label>
-                    <input type="number" id="height" name="height" required><br></br>
-                    <label for="weight">Weight:</label>
-                    <input type="number" id="weight" name="weight" required><br></br>
-                    <label for="back-squat">Back Squat:</label>
-                    <input type="number" id="back-squat" name="back-squat" required><br></br>
-                    <label for="bench-press">Bench Press:</label>
-                    <input type="number" id="bench-press" name="bench-press" required><br></br>
-                    <label for="power-clean">Power Clean:</label>
-                    <input type="number" id="power-clean" name="power-clean" required><br></br>
-                    <label for="40-yard-dash">40 Yard Dash:</label>
-                    <input type="number" id="40-yard-dash" name="40-yard-dash" required><br></br>
+                    <input type="checkbox" id="checkbox-strength">
+                    <label for="checkbox-strength">Strength</label><br></br>
+                    <input type="checkbox" id="checkbox-speed-agil">
+                    <label for="checkbox-speed-agil">Speed/Agility</label><br></br>
+                    <input type="checkbox" id="checkbox-anthropometrics">
+                    <label for="checkbox-anthropometrics">Anthropometrics</label><br></br>
                     <br></br>
                     <button type="submit">Compare</button>
                 </form>
             </section>
             
             <section class="benchmark-chart-area">
-                <div class="chart">
-                    <h4>Back Squat</h4>
-                </div>
-                <div class="chart">
-                    <h4>Bench Press</h4>
-                </div>
-                <div class="chart">
-                    <h4>Power Clean</h4>
-                </div>
-                <div class="chart">
-                    <h4>40 Yard Dash</h4>
+                <h2>Position Group: QB</h2>
+                <div class="strength-chart">
+                    <p>Strength</p>
+                    <canvas></canvas>
+                <div class="agility-chart">
+                    <p>Speed and Agility</p>
+                    <canvas></canvas>
+                <div class="anthro-chart">
+                    <p>Anthropometrics</p>
+                    <canvas></canvas>
                 </div>
             </section>
 
         </section>
         
         </main>
+
+        <script src="js/main.js" type="module"></script>
     </body>
+</html>
