@@ -1,6 +1,9 @@
 import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js@4.4.4/auto/+esm';
 
-function initChart(chartEl) {
+function initChart(chartEl, positionMeans, strengthStats, agilityStats, anthroStats) {
+
+
+
 
 const data = {
         labels: ["squat", "bench", "power clean"],
@@ -19,6 +22,7 @@ const options = {
         }
       };
 
+    
 const chart = new Chart(chartEl, { type: 'bar', data, options });
 
 }

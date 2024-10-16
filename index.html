@@ -23,30 +23,28 @@
 
         <section class="benchmark-page">
             <section class="benchmark-menu">
+                <fieldset id="athlete-stats">  
                 <h2>Athlete Stats</h2>
                 <p>Enter athlete info to compare against their position group</p>
-                <form action="benchmark.php" method="post">  
                     <label for="position">Position Group</label><br></br>
                     <div class="radio-group">
-                    QB<input type="radio" id="position" name="position" value="QB" required>
-                    RB<input type="radio" id="position" name="position" value="RB" required>
-                    WR<input type="radio" id="position" name="position" value="WR" required>
-                    TE<input type="radio" id="position" name="position" value="TE" required>
-                    OL<input type="radio" id="position" name="position" value="OL" required>
-                    DL<input type="radio" id="position" name="position" value="DL" required>
-                    LB<input type="radio" id="position" name="position" value="LB" required>
-                    DB<input type="radio" id="position" name="position" value="DB" required>
-                    SP<input type="radio" id="position" name="position" value="SP" required>
+                    <input type="radio" id="position" name="position" value="QB" required>QB</input>
+                    <input type="radio" id="position" name="position" value="RB" required>RB</input>
+                    <input type="radio" id="position" name="position" value="WR" required>WR</input>
+                    <input type="radio" id="position" name="position" value="TE" required>TE</input>
+                    <input type="radio" id="position" name="position" value="OL" required>OL</input>
+                    <input type="radio" id="position" name="position" value="DL" required>DL</input>
+                    <input type="radio" id="position" name="position" value="LB" required>LB</input>
+                    <input type="radio" id="position" name="position" value="DB" required>DB</input>
+                    <input type="radio" id="position" name="position" value="SP" required>SP</input>
                     </div>
-                    <input type="checkbox" id="checkbox-strength">
+                    <input type="checkbox" id="strength-stats" name="stat-group" value="strength">
                     <label for="checkbox-strength">Strength</label><br></br>
-                    <input type="checkbox" id="checkbox-speed-agil">
+                    <input type="checkbox" id="agility-stats" name="stat-group" value = "agility">
                     <label for="checkbox-speed-agil">Speed/Agility</label><br></br>
-                    <input type="checkbox" id="checkbox-anthropometrics">
+                    <input type="checkbox" id="anthro-stats" name="stat-group" value = "anthro">
                     <label for="checkbox-anthropometrics">Anthropometrics</label><br></br>
-                    <br></br>
-                    <button type="submit">Compare</button>
-                </form>
+                </fieldset>
             </section>
             
             <section class="benchmark-chart-area">
