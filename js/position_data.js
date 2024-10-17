@@ -43,6 +43,7 @@ async function loadPositionData() {
 
     // Handle metric selection
     function updateStatGroups() {
+        selectedMetrics = [];
         agilityStats = agilityStatCheckbox.checked;
         console.log(agilityStats);
         if (agilityStats) {
@@ -83,7 +84,7 @@ async function loadPositionData() {
         box.addEventListener('change', updateStatGroups);
         });
     
-    return {position, positionMeans};
+    return {positionMeans};
     }
     
     export { loadPositionData };
