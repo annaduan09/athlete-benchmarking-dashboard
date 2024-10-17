@@ -1,5 +1,6 @@
 
 let filteredMeans = {};
+let position = "";
 
 async function loadPositionData() {
     // Load position means data for all positions
@@ -18,8 +19,8 @@ async function loadPositionData() {
     const agilityStatCheckbox = document.querySelector('#agility-stats');
     const anthroStatCheckbox = document.querySelector('#anthro-stats');
 
-    let position = "QB";
     let positionMeans = means24.find(group => group.position === position);
+
 
     let selectedMetrics = []     
 
@@ -67,10 +68,8 @@ async function loadPositionData() {
             }
         });
         
-        const event = new CustomEvent('filteredMeansUpdated', { detail: { filteredMeans } });
+        const event = new CustomEvent('filteredMeansUpdated', { detail: { filteredMeans, position } });
         window.dispatchEvent(event);
-
-        console.log(filteredMeans);
         }
 
 
@@ -80,4 +79,4 @@ async function loadPositionData() {
         });
     }
     
-    export { loadPositionData,  filteredMeans};
+    export { loadPositionData,  filteredMeans, position};
