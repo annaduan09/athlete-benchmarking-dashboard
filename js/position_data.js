@@ -30,8 +30,11 @@ async function loadPositionData() {
         position = positionRadio.value;
 
         positionMeans = means24.find(group => group.position === position);
+
+        updateStatGroups();
     } 
 };
+
 
     const positionRadios = document.querySelectorAll('input[name="position"]');
     positionRadios.forEach(radio => {
@@ -64,6 +67,9 @@ async function loadPositionData() {
             }
         });
         
+        const event = new CustomEvent('filteredMeansUpdated', { detail: { filteredMeans } });
+        window.dispatchEvent(event);
+
         console.log(filteredMeans);
         }
 

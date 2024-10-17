@@ -25,8 +25,7 @@
             <section class="benchmark-menu">
                 <fieldset id="athlete-stats">  
                 <h2>Athlete Stats</h2>
-                <p>Enter athlete info to compare against their position group</p>
-                    <label for="position">Position Group</label><br></br>
+                    <p>Select athlete position</p>
                     <div class="radio-group">
                     <input type="radio" id="position" name="position" value="QB" required>QB</input>
                     <input type="radio" id="position" name="position" value="RB" required>RB</input>
@@ -38,12 +37,19 @@
                     <input type="radio" id="position" name="position" value="DB" required>DB</input>
                     <input type="radio" id="position" name="position" value="SP" required>SP</input>
                     </div>
-                    <input type="checkbox" id="strength-stats" name="stat-group" value="strength">
-                    <label for="checkbox-strength">Strength</label><br></br>
-                    <input type="checkbox" id="agility-stats" name="stat-group" value = "agility">
-                    <label for="checkbox-speed-agil">Speed/Agility</label><br></br>
-                    <input type="checkbox" id="anthro-stats" name="stat-group" value = "anthro">
-                    <label for="checkbox-anthropometrics">Anthropometrics</label><br></br>
+                    <p>Select stats of interest and enter athlete stats to benchmark against position group average.</p>
+                    <label>
+                        <input type="checkbox" id="strength-stats" name="stat-group" value="strength">
+                        Strength
+                    </label>
+                    <label>
+                        <input type="checkbox" id="agility-stats" name="stat-group" value="agility">
+                        Agility
+                    </label>
+                    <label>
+                        <input type="checkbox" id="anthro-stats" name="stat-group" value="anthro">
+                        Anthropometrics
+                    </label>
                 </fieldset>
             </section>
             
@@ -52,9 +58,11 @@
                 <div class="strength-chart">
                     <p>Strength</p>
                     <canvas></canvas>
+                </div>
                 <div class="agility-chart">
                     <p>Speed and Agility</p>
                     <canvas></canvas>
+                </div>
                 <div class="anthro-chart">
                     <p>Anthropometrics</p>
                     <canvas></canvas>
