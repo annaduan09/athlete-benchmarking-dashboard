@@ -1,18 +1,23 @@
 import {initChart} from './barchart.js';
-import {loadPositionData} from './position_data.js';
+import {loadPositionData, filteredMeans} from './position_data.js';
 
 
-const {positionMeans, strengthStats, agilityStats, anthroStats} = await loadPositionData();
+(async () => {
+    await loadPositionData();
 
+    setInterval(() => {
+    }, 1000);
+})();
 
+console.log("filteredMeans");
 
 // Individual player benchmarking charts
 const strengthChartEl = document.querySelector('.strength-chart canvas');
-initChart(strengthChartEl, positionMeans, strengthStats, agilityStats, anthroStats);
+initChart(strengthChartEl, filteredMeans);
 
 const agilityChartEl = document.querySelector('.agility-chart canvas');
-initChart(agilityChartEl, positionMeans, strengthStats, agilityStats, anthroStats);
+initChart(agilityChartEl, filteredMeans);
 
 const anthroChartEl = document.querySelector('.anthro-chart canvas');
-initChart(anthroChartEl, positionMeans, strengthStats, agilityStats, anthroStats);
+initChart(anthroChartEl, filteredMeans);
 
