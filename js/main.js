@@ -1,18 +1,38 @@
 import {initChart} from './barchart.js';
-import {loadPositionData} from './position_data.js';
+//import {loadPositionData} from './position_data.js';
+import {initStatEntry} from './stat_entry.js';
 
-// Load position data and update charts
-(async () => {
-    await loadPositionData();
-    window.addEventListener('filteredMeansUpdated', (event) => {
-        const updatedFilteredMeans = event.detail.filteredMeans;
-        console.log('Updated filteredMeans:', updatedFilteredMeans);
-        updateCharts(updatedFilteredMeans, position);
+const teamStatsResponse = await fetch('data/group_means_2024.json');
+const teamStats = await teamStatsResponse.json();
+
+const events = new EventTarget();
+
+// Entry elements
+const statListEl = document.querySelector('#athlete-stats');
+const positionRadioEl = document.querySelector('#athlete-stats');
+
+const positions = teamStats.map(item => item.Position);
+const statNames = teamStats.reduce((keys, item) => {
+    Object.keys(item).forEach(key => {
+      if (key !== "Position" && !keys.includes(key)) {
+        keys.push(key); 
+      }
     });
-})();
+    return keys;
+  }, []);
+
+// Handle stat entry
+initStatEntry(statListEl, positionRadioEl, statNames, positions, events);
+
+// Handle  charts
+const chartEl = document.querySelector('#chart-canvas-test');
+initChart(chartEl, teamStats, events, statNames);
+
+
 
 // Update charts with filtered means
-function updateCharts(filteredMeans, position) {
+
+/* function updateCharts(filteredMeans, position) {
     updatePositionTitle(position);
 
     const strengthChartEl = document.querySelector('.strength-chart canvas');
@@ -23,13 +43,4 @@ function updateCharts(filteredMeans, position) {
 
     const anthroChartEl = document.querySelector('.anthro-chart canvas');
     initChart(anthroChartEl, filteredMeans, 'anthro');
-}
-
-// Update position title
-function updatePositionTitle(position) {
-    console.log('Position:', position);
-    const titleEl = document.getElementById('position-title');
-    if (titleEl) {
-        titleEl.textContent = `Position Group: ${position}`;
-    }
-}
+} */
