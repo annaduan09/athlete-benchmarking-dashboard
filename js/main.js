@@ -27,20 +27,3 @@ initStatEntry(statListEl, positionRadioEl, statNames, positions, events);
 // Handle  charts
 const chartEl = document.querySelector('#chart-canvas-test');
 initChart(chartEl, teamStats, events, statNames);
-
-
-
-// Update charts with filtered means
-
-/* function updateCharts(filteredMeans, position) {
-    updatePositionTitle(position);
-
-    const strengthChartEl = document.querySelector('.strength-chart canvas');
-    initChart(strengthChartEl, filteredMeans, 'strength');
-
-    const agilityChartEl = document.querySelector('.agility-chart canvas');
-    initChart(agilityChartEl, filteredMeans, 'agility');
-
-    const anthroChartEl = document.querySelector('.anthro-chart canvas');
-    initChart(anthroChartEl, filteredMeans, 'anthro');
-} */
