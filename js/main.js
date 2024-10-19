@@ -25,5 +25,5 @@ const statNames = teamStats.reduce((keys, item) => {
 initStatEntry(statListEl, positionRadioEl, statNames, positions, events);
 
 // Handle  charts
-const chartEl = document.querySelector('#chart-canvas-test');
+const chartEl = document.querySelector('#strength-chart');
 initChart(chartEl, teamStats, events, statNames);
