@@ -1,6 +1,6 @@
 import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js@4.4.4/auto/+esm';
 
-function initChart(chartEl, teamStats, events, statNames) {
+function initChart(chartEl, teamStats, events, statNames, statGroup) {
 
 let selectedStats = [];
 let selectedStatsValues = [];
@@ -10,36 +10,46 @@ let positionStatValues = [];
 let athleteStatValues = [];
 let statLabels = [];
 
-const colorMapping = {
-  darkcyan: ['Bench', 'Squat', 'Power Clean', '225lb Bench'],
-  salmon: ['10-Yard Dash', 'Vertical Jump (vertec)', 'Vertical Jump (mat)', 'Broad Jump', '60-Yard Shuttle', 'L Drill', 'Pro Agility', 'Flying 10'],
-  dodgerblue: ['Height', 'Weight', 'Wingspan']
+const statGroups = {
+  Strength: ['Bench', 'Squat', 'Power Clean', '225lb Bench'],
+  Agility: ['10-Yard Dash', 'Vertical Jump (vertec)', 'Vertical Jump (mat)', 'Broad Jump', '60-Yard Shuttle', 'L Drill', 'Pro Agility', 'Flying 10'],
+  Anthropomorphic: ['Height', 'Weight', 'Wingspan']
 };
 
-  function getColorForStat(statName) {
-    if (colorMapping.darkcyan.includes(statName)) {
-      return 'darkcyan';
-    } else if (colorMapping.salmon.includes(statName)) {
-      return 'salmon';
-    } else if (colorMapping.dodgerblue.includes(statName)) {
-      return 'dodgerblue';
-    }
-    return 'gold';
+function getColor() {
+  if (statGroup == "Strength") {
+    return 'darkcyan';
+  } else if (statGroup == "Agility") {
+    return 'salmon';
+  } else if (statGroup == "Anthropomorphic") {
+    return 'dodgerblue';
   }
+  return 'gold';
+}
 
-  // Event listener: position group selected
-  events.addEventListener('positionSelected', (evt) => {
-    const { position } = evt.detail;
-    positionStats = teamStats.filter(item => item.Position === position);
-  });
-  
+ // Filter stats based on the selected statGroup
+ function filterStatsByGroup() {
+  const validStats = statGroups[statGroup]; // Get valid stats for the selected group
+  const filteredStats = selectedStats.filter(stat => validStats.includes(stat));
+  const filteredValues = selectedStatsValues.filter((_, index) => validStats.includes(selectedStats[index]));
+  return { filteredStats, filteredValues };
+}
+
+// Event listener: position group selected
+events.addEventListener('positionSelected', (evt) => {
+  const { position } = evt.detail;
+  positionStats = teamStats.filter(item => item.Position === position);
+
+  updateChart();
+});
+
 // Event listener: stats filled
 events.addEventListener('statFilled', (evt) => {
   const { statName, filled, statValue } = evt.detail;
 
   if (filled) {
     const index = selectedStats.indexOf(statName);
-    
+
     if (index !== -1) {
       selectedStatsValues[index] = statValue;
     } else {
@@ -54,31 +64,29 @@ events.addEventListener('statFilled', (evt) => {
     }
   }
 
-  // Populate chart data
-  statLabels = selectedStats.map(stat => stat);
-  positionStatValues = positionStats.map(item => {
-    return selectedStats.map(stat => item[stat]);
-  });
-  athleteStatValues = selectedStatsValues.map(value => value);
-  
   updateChart();
-
 });
 
 const data = {
   labels: statLabels,
   datasets: [{
-      label: 'Position Stats',
-      data: positionStatValues,
-      backgroundColor: 'rgba(75, 192, 192, 0.2)', 
-      borderColor: 'rgba(75, 192, 192, 1)',       
-      borderWidth: 0.5
+    label: `${statGroup}`,
+    data: positionStatValues,
+    backgroundColor: getColor,
+    borderColor: getColor,
+    borderWidth: 0.5
   }]
 };
 
 const options = {
+    plugins: {
+        title: {
+            display: true,
+            text: 'Custom Chart Title'
+        }
+},
   indexAxis: 'y',
-  aspectRatio: 3,
+  aspectRatio: 4,
   scales: {
     x: { beginAtZero: true }
   }
@@ -86,28 +94,26 @@ const options = {
 
 let chart = new Chart(chartEl, { type: 'bar', data, options });
 
-
 // Function to update chart data and refresh the chart
 function updateChart() {
-  statLabels = selectedStats.map(stat => stat);
-  positionStatValues = positionStats.map(item => {
-    return selectedStats.map(stat => item[stat]);
-  });
-  athleteStatValues = selectedStatsValues.map(value => value);
+  const { filteredStats, filteredValues } = filterStatsByGroup();
 
-  console.log("Updated stat labels:", statLabels);
-  console.log("Updated position stat values:", positionStatValues);
-  console.log("Updated athlete stat values:", athleteStatValues);
+  statLabels = filteredStats.map(stat => stat);
+  positionStatValues = positionStats.map(item => {
+    return filteredStats.map(stat => item[stat]);
+  });
+  athleteStatValues = filteredValues.map(value => value);
 
   // Update chart data
   chart.data.labels = statLabels;
   chart.data.datasets[0].data = positionStatValues.flat();
 
-  chart.data.datasets[0].backgroundColor = statLabels.map(stat => getColorForStat(stat));
-  chart.data.datasets[0].borderColor = statLabels.map(stat => getColorForStat(stat));
+  chart.data.datasets[0].backgroundColor = getColor();
+  chart.data.datasets[0].borderColor = getColor();
 
-  chart.update(); 
+  chart.update();
 }
 }
 
-export {initChart};
+export { initChart };
+

@@ -25,5 +25,11 @@ const statNames = teamStats.reduce((keys, item) => {
 initStatEntry(statListEl, positionRadioEl, statNames, positions, events);
 
 // Handle  charts
-const chartEl = document.querySelector('#strength-chart');
-initChart(chartEl, teamStats, events, statNames);
+const strengthChartEl = document.querySelector('#strength-chart');
+initChart(strengthChartEl, teamStats, events, statNames, "Strength");
+
+const agilityChartEl = document.querySelector('#agility-chart');
+initChart(agilityChartEl, teamStats, events, statNames, "Agility");
+
+const anthroChartEl = document.querySelector('#anthro-chart');
+initChart(anthroChartEl, teamStats, events, statNames, "Anthropomorphic");
