@@ -1,9 +1,13 @@
 import {initChart} from './barchart.js';
 //import {loadPositionData} from './position_data.js';
 import {initStatEntry} from './stat_entry.js';
+import {calculateChartData} from './chart_data.js';
 
 const teamStatsResponse = await fetch('data/group_means_2024.json');
 const teamStats = await teamStatsResponse.json();
+
+const indivStatsResponse = await fetch('data/stats_2024.json');
+const indivStats = await indivStatsResponse.json();
 
 const events = new EventTarget();
 
@@ -11,25 +15,22 @@ const events = new EventTarget();
 const statListEl = document.querySelector('#athlete-stats');
 const positionRadioEl = document.querySelector('#athlete-stats');
 
-const positions = teamStats.map(item => item.Position);
-const statNames = teamStats.reduce((keys, item) => {
-    Object.keys(item).forEach(key => {
-      if (key !== "Position" && !keys.includes(key)) {
-        keys.push(key); 
-      }
-    });
-    return keys;
-  }, []);
+const positions = Object.keys(indivStats);
+const statNames = Object.keys(Object.values(indivStats)[0][0]);
+
 
 // Handle stat entry
 initStatEntry(statListEl, positionRadioEl, statNames, positions, events);
 
-// Handle  charts
+// Calculate chart data 
+calculateChartData(indivStats, events);
+
+// Handle  charts - ultimately, want the inptus to be: strengthChartEl, teamMedians, inputStats, inputPercentile, events, statNames, "Strength"
 const strengthChartEl = document.querySelector('#strength-chart');
-initChart(strengthChartEl, teamStats, events, statNames, "Strength");
+initChart(strengthChartEl, teamStats, indivStats, events, statNames, "Strength");
 
 const agilityChartEl = document.querySelector('#agility-chart');
-initChart(agilityChartEl, teamStats, events, statNames, "Agility");
+initChart(agilityChartEl, teamStats, indivStats, events, statNames, "Agility");
 
 const anthroChartEl = document.querySelector('#anthro-chart');
-initChart(anthroChartEl, teamStats, events, statNames, "Anthropomorphic");
+initChart(anthroChartEl, teamStats, indivStats, events, statNames, "Anthropomorphic");

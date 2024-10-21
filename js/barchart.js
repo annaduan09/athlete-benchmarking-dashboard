@@ -1,11 +1,15 @@
 import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js@4.4.4/auto/+esm';
 
-function initChart(chartEl, teamStats, events, statNames, statGroup) {
+function initChart(chartEl, teamStats, indivStats, events, statNames, statGroup) {
 
 let selectedStats = [];
 let selectedStatsValues = [];
 
 let positionStats = teamStats.filter(item => item.Position === "Quarterback");
+
+/* let positionStats2 = Object.entries(indivStats).filter(([key, value]) => key === "Quarterback");
+console.log("Indiv stats:", positionStats2); */
+
 let positionStatValues = [];
 let athleteStatValues = [];
 let statLabels = [];
@@ -70,7 +74,7 @@ events.addEventListener('statFilled', (evt) => {
 const data = {
   labels: statLabels,
   datasets: [{
-    label: `${statGroup}`,
+    label: `Percentile Rank within Position Group`,
     data: positionStatValues,
     backgroundColor: getColor,
     borderColor: getColor,
@@ -82,7 +86,7 @@ const options = {
     plugins: {
         title: {
             display: true,
-            text: 'Custom Chart Title'
+            text: statGroup,
         }
 },
   indexAxis: 'y',

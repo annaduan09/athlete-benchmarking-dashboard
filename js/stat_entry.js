@@ -6,10 +6,12 @@ const radioEl = positionRadioEl.querySelector('div');
 // Initialize list and radio items
 const statListItems = {};
 const positionRadioItems = {};
+positions = positions.sort((a, b) => {
+    return a.localeCompare(b);
+})
 
 // Update position label
 function updatePositionTitle(position) {
-    console.log('Position:', position);
     const titleEl = document.getElementById('position-title');
     if (titleEl) {
         titleEl.textContent = `Position Group: ${position}`;
@@ -23,7 +25,7 @@ function initListItems() {
         item.innerHTML = `
         <label>
         ${stat}
-        <input type="number" id="athlete-stat" name="${stat}">
+        <input type="number" id="athlete-stat-${stat}" name="${stat}">
         </label>
         `;
         statListItems[stat] = item;
@@ -77,7 +79,7 @@ populateList(stats);
 
     const numInput = evt.target;
     const statName = numInput.name;
-    const filled = numInput.value !== '';
+    const filled = numInput.value !== '' && numInput.value !== null && numInput.value > 0;
     const statValue = filled ? parseFloat(numInput.value) : null;
 
     const event = new CustomEvent('statFilled', {
