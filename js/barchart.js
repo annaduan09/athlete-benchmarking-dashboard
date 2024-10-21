@@ -1,6 +1,6 @@
 import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js@4.4.4/auto/+esm';
 
-function initChart(chartEl, teamStats, indivStats, events, statNames, statGroup) {
+function initChart(chartEl, positionMedians, statNames, playerStats, playerPercentiles, statGroup) {
 
 let selectedStats = [];
 let selectedStatsValues = [];

@@ -60,8 +60,6 @@ function calculateChartData(indivStats, events) {
       updatePositionStatsValues();
     });
   
-  
-  
 
     events.addEventListener('statFilled', (evt) => {
       const { statName, filled, statValue } = evt.detail;
@@ -89,7 +87,21 @@ function calculateChartData(indivStats, events) {
       getMedians();
       getPercentiles();
     });
-  }
+
+
+    function getCalculatedData() {
+        return {
+          positionMedians,
+          playerPercentiles,
+          playerStats,
+          playerStatsValues,
+        };
+      }
+
+      return {
+        getCalculatedData,
+      };
+    }
   
   export { calculateChartData };
   

@@ -1,10 +1,9 @@
-import {initChart} from './barchart.js';
-//import {loadPositionData} from './position_data.js';
-import {initStatEntry} from './stat_entry.js';
-import {calculateChartData} from './chart_data.js';
+import { initChart } from './barchart.js';
+import { initStatEntry } from './stat_entry.js';
+import { calculateChartData } from './chart_data.js';
 
-const teamStatsResponse = await fetch('data/group_means_2024.json');
-const teamStats = await teamStatsResponse.json();
+/* const teamStatsResponse = await fetch('data/group_means_2024.json');
+const teamStats = await teamStatsResponse.json(); */
 
 const indivStatsResponse = await fetch('data/stats_2024.json');
 const indivStats = await indivStatsResponse.json();
@@ -18,19 +17,30 @@ const positionRadioEl = document.querySelector('#athlete-stats');
 const positions = Object.keys(indivStats);
 const statNames = Object.keys(Object.values(indivStats)[0][0]);
 
-
 // Handle stat entry
 initStatEntry(statListEl, positionRadioEl, statNames, positions, events);
 
-// Calculate chart data 
-calculateChartData(indivStats, events);
+// Calculate chart data
+let chartData = calculateChartData(indivStats, events);
 
-// Handle  charts - ultimately, want the inptus to be: strengthChartEl, teamMedians, inputStats, inputPercentile, events, statNames, "Strength"
+// Get chart elements
 const strengthChartEl = document.querySelector('#strength-chart');
-initChart(strengthChartEl, teamStats, indivStats, events, statNames, "Strength");
-
 const agilityChartEl = document.querySelector('#agility-chart');
-initChart(agilityChartEl, teamStats, indivStats, events, statNames, "Agility");
-
 const anthroChartEl = document.querySelector('#anthro-chart');
-initChart(anthroChartEl, teamStats, indivStats, events, statNames, "Anthropomorphic");
+
+// Function to update charts when data changes
+function updateCharts() {
+  const { positionMedians, playerPercentiles, playerStats, playerStatsValues } = chartData.getCalculatedData();
+
+  // Update each chart with the newly calculated data
+  initChart(strengthChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, "Strength");
+  initChart(agilityChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, "Agility");
+  initChart(anthroChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, "Anthropomorphic");
+}
+
+// Listen for changes in stat or position
+events.addEventListener('statFilled', updateCharts);
+events.addEventListener('positionSelected', updateCharts);
+
+// Initial chart rendering
+updateCharts();
