@@ -1,88 +1,63 @@
 import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js@4.4.4/auto/+esm';
 
-function initChart(chartEl, positionMedians, statNames, playerStats, playerPercentiles, statGroup) {
+// Create an object to keep track of charts by canvas element ID
+const chartInstances = {};
 
-let selectedStats = [];
-let selectedStatsValues = [];
+function initChart(chartEl, positionMedians, statNames, playerStats, playerPercentiles, statGroup, events) {
+  console.log("Stat group:", statGroup);
 
-let positionStats = teamStats.filter(item => item.Position === "Quarterback");
+  const statGroups = {
+    Strength: ['Bench', 'Squat', 'Power Clean', '225lb Bench'],
+    Agility: ['10-Yard Dash', 'Vertical Jump (vertec)', 'Vertical Jump (mat)', 'Broad Jump', '60-Yard Shuttle', 'L Drill', 'Pro Agility', 'Flying 10'],
+    Anthropomorphic: ['Height', 'Weight', 'Wingspan']
+  };
 
-/* let positionStats2 = Object.entries(indivStats).filter(([key, value]) => key === "Quarterback");
-console.log("Indiv stats:", positionStats2); */
+  let filteredStats = [];
+  let filteredMedians = [];
+  let filteredPlayerStats = [];
+  let filteredPercentiles = [];
 
-let positionStatValues = [];
-let athleteStatValues = [];
-let statLabels = [];
+  // Filter stats by statGroup
+  function filterStatsByGroup() {
+    const validStats = statGroups[statGroup]; // Get valid stats for the selected group
+    filteredStats = statNames.filter(stat => validStats.includes(stat));
+    filteredMedians = positionMedians.filter((_, index) => validStats.includes(statNames[index]));
+    filteredPlayerStats = playerStats.filter((_, index) => validStats.includes(statNames[index]));
+    filteredPercentiles = playerPercentiles.filter((_, index) => validStats.includes(statNames[index]));
 
-const statGroups = {
-  Strength: ['Bench', 'Squat', 'Power Clean', '225lb Bench'],
-  Agility: ['10-Yard Dash', 'Vertical Jump (vertec)', 'Vertical Jump (mat)', 'Broad Jump', '60-Yard Shuttle', 'L Drill', 'Pro Agility', 'Flying 10'],
-  Anthropomorphic: ['Height', 'Weight', 'Wingspan']
-};
-
-function getColor() {
-  if (statGroup == "Strength") {
-    return 'darkcyan';
-  } else if (statGroup == "Agility") {
-    return 'salmon';
-  } else if (statGroup == "Anthropomorphic") {
-    return 'dodgerblue';
-  }
-  return 'gold';
-}
-
- // Filter stats based on the selected statGroup
- function filterStatsByGroup() {
-  const validStats = statGroups[statGroup]; // Get valid stats for the selected group
-  const filteredStats = selectedStats.filter(stat => validStats.includes(stat));
-  const filteredValues = selectedStatsValues.filter((_, index) => validStats.includes(selectedStats[index]));
-  return { filteredStats, filteredValues };
-}
-
-// Event listener: position group selected
-events.addEventListener('positionSelected', (evt) => {
-  const { position } = evt.detail;
-  positionStats = teamStats.filter(item => item.Position === position);
-
-  updateChart();
-});
-
-// Event listener: stats filled
-events.addEventListener('statFilled', (evt) => {
-  const { statName, filled, statValue } = evt.detail;
-
-  if (filled) {
-    const index = selectedStats.indexOf(statName);
-
-    if (index !== -1) {
-      selectedStatsValues[index] = statValue;
-    } else {
-      selectedStats.push(statName);
-      selectedStatsValues.push(statValue);
-    }
-  } else { // Remove stat if no longer filled
-    const index = selectedStats.indexOf(statName);
-    if (index !== -1) {
-      selectedStats.splice(index, 1);
-      selectedStatsValues.splice(index, 1);
-    }
+    console.log("Filtered stats", filteredStats);
+    console.log("Filtered medians", filteredMedians);
+    console.log("Filtered player stats", filteredPlayerStats);
+    console.log("Filtered percentiles", filteredPercentiles);
   }
 
-  updateChart();
-});
+  filterStatsByGroup();
 
-const data = {
-  labels: statLabels,
-  datasets: [{
-    label: `Percentile Rank within Position Group`,
-    data: positionStatValues,
-    backgroundColor: getColor,
-    borderColor: getColor,
-    borderWidth: 0.5
-  }]
-};
+  // Check if a chart already exists for this canvas element
+  if (chartInstances[chartEl.id]) {
+    // If a chart exists, destroy it before creating a new one
+    chartInstances[chartEl.id].destroy();
+  }
 
-const options = {
+  const data = {
+    labels: filteredStats,
+    datasets: [
+      {
+        label: 'Player Percentiles',
+        data: filteredPercentiles,
+        backgroundColor: getColor(),
+        borderColor: getColor(),
+        opacity: 0.5,
+        borderWidth: 1,
+        barThickness: 50,
+        borderWidth: 0,
+        borderRadius: 100
+      }
+    ]
+  };
+
+ 
+  const options = {
     plugins: {
         title: {
             display: true,
@@ -92,32 +67,24 @@ const options = {
   indexAxis: 'y',
   aspectRatio: 4,
   scales: {
-    x: { beginAtZero: true }
-  }
+    x: { beginAtZero: true}
+  },
+  responsive: true,
 };
 
-let chart = new Chart(chartEl, { type: 'bar', data, options });
+  // Create a new chart instance and store it in the chartInstances object
+  chartInstances[chartEl.id] = new Chart(chartEl, { type: 'bar', data, options });
 
-// Function to update chart data and refresh the chart
-function updateChart() {
-  const { filteredStats, filteredValues } = filterStatsByGroup();
-
-  statLabels = filteredStats.map(stat => stat);
-  positionStatValues = positionStats.map(item => {
-    return filteredStats.map(stat => item[stat]);
-  });
-  athleteStatValues = filteredValues.map(value => value);
-
-  // Update chart data
-  chart.data.labels = statLabels;
-  chart.data.datasets[0].data = positionStatValues.flat();
-
-  chart.data.datasets[0].backgroundColor = getColor();
-  chart.data.datasets[0].borderColor = getColor();
-
-  chart.update();
-}
+  function getColor() {
+    if (statGroup === "Strength") {
+      return 'darkcyan';
+    } else if (statGroup === "Agility") {
+      return 'salmon';
+    } else if (statGroup === "Anthropomorphic") {
+      return 'gold';
+    }
+    return 'navy';
+  }
 }
 
 export { initChart };
-

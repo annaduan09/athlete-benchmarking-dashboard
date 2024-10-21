@@ -101,6 +101,11 @@ ul {
   flex-direction: column;
 }
 
+.benchmark-chart-area canvas {
+  width: 70%;
+  height: auto;
+}
+
 #position-title {
   font-size: 2.5rem;
   font-weight: 100;
