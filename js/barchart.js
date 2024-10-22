@@ -24,18 +24,11 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
     filteredMedians = positionMedians.filter((_, index) => validStats.includes(statNames[index]));
     filteredPlayerStats = playerStats.filter((_, index) => validStats.includes(statNames[index]));
     filteredPercentiles = playerPercentiles.filter((_, index) => validStats.includes(statNames[index]));
-
-    console.log("Filtered stats", filteredStats);
-    console.log("Filtered medians", filteredMedians);
-    console.log("Filtered player stats", filteredPlayerStats);
-    console.log("Filtered percentiles", filteredPercentiles);
   }
 
   filterStatsByGroup();
 
-  // Check if a chart already exists for this canvas element
   if (chartInstances[chartEl.id]) {
-    // If a chart exists, destroy it before creating a new one
     chartInstances[chartEl.id].destroy();
   }
 
@@ -47,11 +40,11 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
         data: filteredPercentiles,
         backgroundColor: getColor(),
         borderColor: getColor(),
-        opacity: 0.5,
         borderWidth: 1,
-        barThickness: 50,
-        borderWidth: 0,
-        borderRadius: 100
+        barThickness: 30,
+        borderRadius: 10,
+        borderSkipped: false,
+        minBarLength: 10,
       }
     ]
   };
@@ -67,7 +60,12 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
   indexAxis: 'y',
   aspectRatio: 4,
   scales: {
-    x: { beginAtZero: true}
+    x: {beginAtZero: true}
+  },
+  elements: {
+    bar: {
+      minBarLength: 40, 
+    }
   },
   responsive: true,
 };
@@ -75,15 +73,17 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
   // Create a new chart instance and store it in the chartInstances object
   chartInstances[chartEl.id] = new Chart(chartEl, { type: 'bar', data, options });
 
+  
   function getColor() {
-    if (statGroup === "Strength") {
-      return 'darkcyan';
-    } else if (statGroup === "Agility") {
-      return 'salmon';
-    } else if (statGroup === "Anthropomorphic") {
-      return 'gold';
-    }
-    return 'navy';
+    return filteredPercentiles.map(percentile => {
+      if (percentile >= 75) {
+        return 'rgba(0, 139, 139, 0.5)'; // darkcyan with opacity 0.5
+      } else if (percentile >= 50) {
+        return 'rgba(255, 215, 0, 0.5)'; // gold with opacity 0.5
+      } else {
+        return 'rgba(250, 128, 114, 0.5)'; // salmon with opacity 0.5
+      }
+    });
   }
 }
 

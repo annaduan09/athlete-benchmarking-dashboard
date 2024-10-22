@@ -5,25 +5,35 @@ function calculateChartData(indivStats, events) {
     let playerStats = [];
     let playerStatsValues = [];
   
-    let positionMedians;
-    let playerPercentiles;
+    let positionMedians = [];
+    let playerPercentiles = [];
   
-    function getPercentiles() {
-        playerPercentiles = [];
+    const inversePercentileStats = [
+        'Flying 10', '10-Yard Dash', '60-Yard Shuttle', 'L Drill', 'Pro Agility'
+      ];
 
-        playerStats.forEach((values, index) => {
+      function getPercentiles() {
+        playerPercentiles = [];
+      
+        playerStats.forEach((statName, index) => {
           const playerValue = playerStatsValues[index];
           const statValues = positionStatsValues[index];
-          const sortedStatValues = statValues.slice().sort((a, b) => a - b);
+          const sortedStatValues = statValues.slice().sort((a, b) => a - b);  // Sort values in ascending order
           const countBelow = sortedStatValues.filter(value => value <= playerValue).length;
-
+      
           let percentile = (countBelow / sortedStatValues.length);
           percentile = Math.round(percentile * 100);
-
+      
+          // Flip the percentile if the stat is one where smaller values are better
+          if (inversePercentileStats.includes(statName)) {
+            percentile = 100 - percentile;
+          }
+      
           playerPercentiles.push(percentile);
         });
+      
         return playerPercentiles;
-    }
+      }
   
     function getMedians() {
       positionMedians = [];
