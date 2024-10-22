@@ -14,19 +14,12 @@
                 <p id="page-name">Penn Football Athlete Benchmarking</p>
             </div>
 
-<!--             <div class="navbar">
-                <a href="index.html">BENCHMARK ATHLETE</a>
-                <a href="login.html">TRACK TRENDS</a>
-                <a href="register.html">VIEW DATA</a>
-                <a href="about.html">ABOUT</a>
-            </div> -->
-
         <section class="benchmark-page">
             <section class="benchmark-menu">
                 <fieldset id="athlete-stats">  
-                <legend>
+                <span>
                     Athlete Stats
-                </legend>
+                </span>
                     <p>Select athlete position</p>
                     <div class="radio-group">
                     <label>
@@ -43,13 +36,19 @@
                     <li>
                     <label>
                         Bench
+                        <div class="input-wrapper">
                         <input type="number" id="athlete-stat" name="bench">
+                        <span class="unit">pounds</span>
+                    </div>
                     </label>
                     </li>
                     <li>
                     <label>
                         Wingspan
+                        <div class="input-wrapper">
                         <input type="number" id="athlete-stat" name="wingspan">
+                        <span class="unit">inches</span>
+                    </div>
                     </label>
                     </li>
                     </ul>
@@ -64,13 +63,7 @@
                     <canvas id="anthro-chart"></canvas>
                 </div>
             </section>
-
         </section>
-        
-        <div class="footer">
-            Penn Strength and Conditioning
-        </div>
-
         </main>
 
         <script src="js/main.js" type="module"></script>

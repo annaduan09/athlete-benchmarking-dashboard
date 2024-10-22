@@ -54,19 +54,36 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
         title: {
             display: true,
             text: statGroup,
+        },
+        legend: {
+            display: false
+          },
+          tooltip: {
+            usePointStyle: true,
+            callbacks: {
+                labelPointStyle: function(context) {
+                    return {
+                        pointStyle: 'triangle',
+                        rotation: 90
+                    };
+                }
+            }
         }
 },
   indexAxis: 'y',
-  aspectRatio: 5,
+  aspectRatio: 4,
   scales: {
-    x: {beginAtZero: true}
+    x: {beginAtZero: true,
+      min: 0, 
+      max: 100
+    }
   },
   elements: {
     bar: {
       minBarLength: 40, 
     }
   },
-  responsive: true,
+  responsive: true
 };
 
   chartInstances[chartEl.id] = new Chart(chartEl, { type: 'bar', data, options });

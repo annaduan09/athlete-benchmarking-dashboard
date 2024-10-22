@@ -16,6 +16,26 @@ const orderedStats = [
   'Height', 'Weight', 'Wingspan'  // Anthropomorphic stats
 ];
 
+const unitMapping = {
+  pounds: ['Bench', 'Squat', 'Power Clean', 'Weight'],
+  reps: ['225lb Bench'],
+  inches: ['Vertical Jump (vertec)', 'Vertical Jump (mat)', 'Broad Jump', 'Height', 'Wingspan'],
+  seconds: ['10-Yard Dash', '60-Yard Shuttle', 'L Drill', 'Pro Agility', 'Flying 10']
+};
+
+  function getUnit(stat) {
+    if (unitMapping.pounds.includes(stat)) {
+      return 'pounds';
+    } else if (unitMapping.reps.includes(stat)) {
+      return 'reps';
+    } else if (unitMapping.inches.includes(stat)) {
+      return 'inches';
+    } else if (unitMapping.seconds.includes(stat)) {
+      return 'seconds';
+    }
+    return ''; 
+  }
+
 // Update position label
 function updatePositionTitle(position) {
     const titleEl = document.getElementById('position-title');
@@ -24,16 +44,19 @@ function updatePositionTitle(position) {
     }
 } 
 
-  // Initialize list items
   function initListItems() {
     // Loop through orderedStats to ensure correct order
     for (const stat of orderedStats) {
       if (stats.includes(stat)) { // Ensure the stat exists in the list of stats
+        const unit = getUnit(stat);  // Get the correct unit for the stat
         const item = document.createElement('li');
         item.innerHTML = `
         <label>
         ${stat}
+        <div class="input-wrapper">
         <input type="number" id="athlete-stat-${stat}" name="${stat}">
+        <span class="unit">${unit}</span>
+        </div>
         </label>
         `;
         statListItems[stat] = item;
