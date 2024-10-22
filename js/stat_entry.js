@@ -10,6 +10,12 @@ positions = positions.sort((a, b) => {
     return a.localeCompare(b);
 })
 
+const orderedStats = [
+  'Bench', 'Squat', 'Power Clean', '225lb Bench',    // Strength stats
+  '10-Yard Dash', 'Vertical Jump (vertec)', 'Vertical Jump (mat)', 'Broad Jump', '60-Yard Shuttle', 'L Drill', 'Pro Agility', 'Flying 10', // Agility stats
+  'Height', 'Weight', 'Wingspan'  // Anthropomorphic stats
+];
+
 // Update position label
 function updatePositionTitle(position) {
     const titleEl = document.getElementById('position-title');
@@ -18,9 +24,11 @@ function updatePositionTitle(position) {
     }
 } 
 
-// Initialize list items
-function initListItems() {
-    for (const stat of stats) {
+  // Initialize list items
+  function initListItems() {
+    // Loop through orderedStats to ensure correct order
+    for (const stat of orderedStats) {
+      if (stats.includes(stat)) { // Ensure the stat exists in the list of stats
         const item = document.createElement('li');
         item.innerHTML = `
         <label>
@@ -29,8 +37,9 @@ function initListItems() {
         </label>
         `;
         statListItems[stat] = item;
+      }
     }
-}
+  }
 
 // Initialize radio items
 function initRadioItems() {
@@ -55,11 +64,13 @@ initListItems();
 function populateList(stats) {
     listEl.innerHTML = '';
 
-for (const stat of stats) {
-    const item = statListItems[stat];
-    listEl.append(item);
-}
-}
+    for (const stat of orderedStats) {
+      if (stats.includes(stat)) { 
+        const item = statListItems[stat];
+        listEl.append(item);
+      }
+    }
+  }
 
 // Populate radio
 function populateRadio(positions) {

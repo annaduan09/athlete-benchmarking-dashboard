@@ -1,6 +1,5 @@
 import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js@4.4.4/auto/+esm';
 
-// Create an object to keep track of charts by canvas element ID
 const chartInstances = {};
 
 function initChart(chartEl, positionMedians, statNames, playerStats, playerPercentiles, statGroup, events) {
@@ -41,15 +40,15 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
         backgroundColor: getColor(),
         borderColor: getColor(),
         borderWidth: 1,
-        barThickness: 30,
+        barThickness: 'flex',
+        maxBarThickness: 70,
         borderRadius: 10,
         borderSkipped: false,
-        minBarLength: 10,
+        minBarLength: 10
       }
     ]
   };
 
- 
   const options = {
     plugins: {
         title: {
@@ -58,7 +57,7 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
         }
 },
   indexAxis: 'y',
-  aspectRatio: 4,
+  aspectRatio: 5,
   scales: {
     x: {beginAtZero: true}
   },
@@ -70,18 +69,17 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
   responsive: true,
 };
 
-  // Create a new chart instance and store it in the chartInstances object
   chartInstances[chartEl.id] = new Chart(chartEl, { type: 'bar', data, options });
 
   
   function getColor() {
     return filteredPercentiles.map(percentile => {
       if (percentile >= 75) {
-        return 'rgba(0, 139, 139, 0.5)'; // darkcyan with opacity 0.5
+        return 'rgba(0, 139, 139, 0.5)';
       } else if (percentile >= 50) {
-        return 'rgba(255, 215, 0, 0.5)'; // gold with opacity 0.5
+        return 'rgba(255, 215, 0, 0.5)'; 
       } else {
-        return 'rgba(250, 128, 114, 0.5)'; // salmon with opacity 0.5
+        return 'rgba(250, 128, 114, 0.5)';
       }
     });
   }
