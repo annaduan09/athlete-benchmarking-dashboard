@@ -1,6 +1,5 @@
 function calculateChartData(indivStats, events) {
-    // Initialize state
-    let playerPosition = "Quarterback";  // Default position
+    let playerPosition = "Defensive Back";  
     let positionStatsValues = [];
     let playerStats = [];
     let playerStatsValues = [];
@@ -18,13 +17,12 @@ function calculateChartData(indivStats, events) {
         playerStats.forEach((statName, index) => {
           const playerValue = playerStatsValues[index];
           const statValues = positionStatsValues[index];
-          const sortedStatValues = statValues.slice().sort((a, b) => a - b);  // Sort values in ascending order
+          const sortedStatValues = statValues.slice().sort((a, b) => a - b); 
           const countBelow = sortedStatValues.filter(value => value <= playerValue).length;
       
           let percentile = (countBelow / sortedStatValues.length);
           percentile = Math.round(percentile * 100);
       
-          // Flip the percentile if the stat is one where smaller values are better
           if (inversePercentileStats.includes(statName)) {
             percentile = 100 - percentile;
           }

@@ -2,29 +2,7 @@ import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js@4.4.4/auto/+esm';
 
 const chartInstances = {};
 
-function initChart(chartEl, positionMedians, statNames, playerStats, playerPercentiles, events) {
-
-/*   const statGroups = {
-    Strength: ['Bench', 'Squat', 'Power Clean', '225lb Bench'],
-    Agility: ['10-Yard Dash', 'Vertical Jump (vertec)', 'Vertical Jump (mat)', 'Broad Jump', '60-Yard Shuttle', 'L Drill', 'Pro Agility', 'Flying 10'],
-    Anthropomorphic: ['Height', 'Weight', 'Wingspan']
-  }; */
-
-/*   let filteredStats = [];
-  let filteredMedians = [];
-  let filteredPlayerStats = [];
-  let filteredPercentiles = []; */
-/* 
-  // Filter stats by statGroup
-  function filterStatsByGroup() {
-    const validStats = statGroups[statGroup]; // Get valid stats for the selected group
-    filteredStats = statNames.filter(stat => validStats.includes(stat));
-    filteredMedians = positionMedians.filter((_, index) => validStats.includes(statNames[index]));
-    filteredPlayerStats = playerStats.filter((_, index) => validStats.includes(statNames[index]));
-    filteredPercentiles = playerPercentiles.filter((_, index) => validStats.includes(statNames[index]));
-  }
-
-  filterStatsByGroup(); */
+function initChart(chartEl, positionMedians, statNames, playerStats, playerPercentiles) {
 
   if (chartInstances[chartEl.id]) {
     chartInstances[chartEl.id].destroy();
@@ -88,14 +66,27 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
           tooltip: {
             usePointStyle: true,
             callbacks: {
-                labelPointStyle: function(context) {
-                    return {
-                        pointStyle: 'triangle',
-                        rotation: 90
-                    };
-                }
+              label: function(context) {
+                const index = context.dataIndex; 
+                const statName = context.label;
+                const playerStat = playerStats[index]; 
+                const positionMedian = positionMedians[index]; 
+                const percentile = playerPercentiles[index]; 
+    
+                return [
+                  `${statName}`,
+                  `Player Stat: ${playerStat}`,
+                  `Position Median: ${positionMedian}`,
+                  `Percentile: ${percentile}%`
+                ];
+              },
+              labelPointStyle: function(context) {
+                return {
+                  pointStyle: 'star'
+                };
+              }
             }
-        }
+          }
 },
   indexAxis: 'y',
   aspectRatio: 2,

@@ -19,14 +19,6 @@
                 <fieldset id="athlete-stats">  
                     <p>Select athlete position</p>
                     <div class="radio-group">
-                    <label>
-                        QB
-                        <input type="radio" id="position-radio" name="position" value="QB" required>
-                    </label>
-                    <label>
-                        SP
-                        <input type="radio" id="position-radio" name="position" value="SP" required>
-                    </label>
                     </div>
                     <p>Enter athlete stats to benchmark against position group</p>
                     <ul id ="stats-list">
@@ -34,7 +26,7 @@
                     <label>
                         Bench
                         <div class="input-wrapper">
-                        <input type="number" id="athlete-stat" name="bench">
+                        <input type="number" id="athlete-stat" class="stat-input" name="bench">
                         <span class="unit">pounds</span>
                     </div>
                     </label>
@@ -43,7 +35,7 @@
                     <label>
                         Wingspan
                         <div class="input-wrapper">
-                        <input type="number" id="athlete-stat" name="wingspan">
+                        <input type="number" id="athlete-stat" class="stat-input" name="wingspan">
                         <span class="unit">inches</span>
                     </div>
                     </label>
@@ -53,7 +45,7 @@
             </section>
             
             <section class="benchmark-chart-area" id="stat-charts">
-                <h2 id="position-title">Position Group: Quarterback</h2>
+                <h2 id="position-title">Select a position group to start</h2>
                 <div>
                     <canvas id="percentile-chart"></canvas>
                 </div>

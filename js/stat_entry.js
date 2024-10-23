@@ -64,7 +64,7 @@ function updatePositionTitle(position) {
     }
   }
 
-// Initialize radio items
+/* // Initialize radio items
 function initRadioItems() {
     for (const position of positions) {
         const label = document.createElement('label');
@@ -78,9 +78,26 @@ function initRadioItems() {
 
         positionRadioItems[position] = label;
     }
-}
+} */
 
-initRadioItems();
+    function initDropdownItems() {
+      // Create a select element
+      const selectEl = document.createElement('select');
+      selectEl.name = 'position';  // Set the name of the select dropdown
+      
+      // Loop through positions and create option elements
+      for (const position of positions) {
+          const option = document.createElement('option');
+          option.value = position;
+          option.textContent = position;  // The visible text in the dropdown
+  
+          selectEl.appendChild(option);  // Add each option to the select element
+      }
+  
+      return selectEl;  // Return the select element
+  }
+
+  initDropdownItems();
 initListItems();
 
 // Populate list
@@ -95,38 +112,23 @@ function populateList(stats) {
     }
   }
 
-// Populate radio
-function populateRadio(positions) {
-    radioEl.innerHTML = '';
 
-for (const position of positions) {
-    const item = positionRadioItems[position];
-    radioEl.append(item);
-}
+// Populate dropdown
+function populateDropdown(positions) {
+  radioEl.innerHTML = '';  // Clear existing elements
+
+  // Initialize the dropdown and append it to the container
+  const dropdown = initDropdownItems();
+  radioEl.appendChild(dropdown);
+
+  // Add event listener for dropdown change (same as radio)
+  dropdown.addEventListener('change', handleDropdownChange);
 }
 
-populateRadio(positions);
+
+populateDropdown(positions);
 populateList(stats);
 
-/*  function handleNumEntry(evt) {
-
-    const numInput = evt.target;
-    const statName = numInput.name;
-    const filled = numInput.value !== '' && numInput.value !== null && numInput.value > 0;
-    const statValue = filled ? parseFloat(numInput.value) : null;
-
-    if (numInput.checkValidity() == false) {
-      numInput.setCustomValidity('Please enter a valid number');
-      numInput.reportValidity();
-      return;
-    }
-
-    const event = new CustomEvent('statFilled', {
-      detail: { statName, filled, statValue }
-    });
-    events.dispatchEvent(event);
-  }
- */
 
   function handleNumEntry(evt) {
     const numInput = evt.target;
@@ -148,17 +150,17 @@ populateList(stats);
     events.dispatchEvent(event);
   }
 
-  function handleRadioEntry(evt) {
-    const radioInput = evt.target;
-    const position = radioInput.value;
+  function handleDropdownChange(evt) {
+    const selectedPosition = evt.target.value;
 
-    updatePositionTitle(position);
-
+    // Dispatch a custom event when the position is selected
     const event = new CustomEvent('positionSelected', {
-      detail: { position }
+        detail: { position: selectedPosition }
     });
     events.dispatchEvent(event);
-  }
+    updatePositionTitle(selectedPosition);
+}
+
 
   for (const item of Object.values(statListItems)) {
     const numInput = item.querySelector('input');
