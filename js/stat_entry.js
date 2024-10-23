@@ -11,9 +11,9 @@ positions = positions.sort((a, b) => {
 })
 
 const orderedStats = [
-  'Bench', 'Squat', 'Power Clean', '225lb Bench',    // Strength stats
+  'Bench', 'Squat', 'Power Clean', '225lb Bench', 
   '10-Yard Dash', 'Vertical Jump (vertec)', 'Vertical Jump (mat)', 'Broad Jump', '60-Yard Shuttle', 'L Drill', 'Pro Agility', 'Flying 10', // Agility stats
-  'Height', 'Weight', 'Wingspan'  // Anthropomorphic stats
+  'Height', 'Weight', 'Wingspan'  
 ];
 
 const unitMapping = {
@@ -47,14 +47,14 @@ function updatePositionTitle(position) {
   function initListItems() {
     // Loop through orderedStats to ensure correct order
     for (const stat of orderedStats) {
-      if (stats.includes(stat)) { // Ensure the stat exists in the list of stats
-        const unit = getUnit(stat);  // Get the correct unit for the stat
+      if (stats.includes(stat)) { 
+        const unit = getUnit(stat); 
         const item = document.createElement('li');
         item.innerHTML = `
         <label>
         ${stat}
         <div class="input-wrapper">
-        <input type="number" id="athlete-stat-${stat}" name="${stat}">
+        <input type="number" id="athlete-stat-${stat}" name="${stat}" max="1000">
         <span class="unit">${unit}</span>
         </div>
         </label>
@@ -108,14 +108,42 @@ for (const position of positions) {
 populateRadio(positions);
 populateList(stats);
 
- // Capture the input
- function handleNumEntry(evt) {
+/*  function handleNumEntry(evt) {
 
     const numInput = evt.target;
     const statName = numInput.name;
     const filled = numInput.value !== '' && numInput.value !== null && numInput.value > 0;
     const statValue = filled ? parseFloat(numInput.value) : null;
 
+    if (numInput.checkValidity() == false) {
+      numInput.setCustomValidity('Please enter a valid number');
+      numInput.reportValidity();
+      return;
+    }
+
+    const event = new CustomEvent('statFilled', {
+      detail: { statName, filled, statValue }
+    });
+    events.dispatchEvent(event);
+  }
+ */
+
+  function handleNumEntry(evt) {
+    const numInput = evt.target;
+    const statName = numInput.name;
+    const filled = numInput.value !== '' && numInput.value !== null && numInput.value > 0;
+    const statValue = filled ? parseFloat(numInput.value) : null;
+  
+    numInput.setCustomValidity('');  
+  
+    // Check if the value is invalid (e.g., value <= 0 or empty)
+    if (!numInput.checkValidity() || numInput.value <= 0) {
+      numInput.setCustomValidity('That seems high. Please enter a valid number');
+      numInput.reportValidity();
+      return;
+    }
+  
+    // Dispatch the custom event if the input is valid
     const event = new CustomEvent('statFilled', {
       detail: { statName, filled, statValue }
     });
@@ -126,7 +154,6 @@ populateList(stats);
     const radioInput = evt.target;
     const position = radioInput.value;
 
-    // Update position label
     updatePositionTitle(position);
 
     const event = new CustomEvent('positionSelected', {
@@ -135,13 +162,11 @@ populateList(stats);
     events.dispatchEvent(event);
   }
 
-// Add event listener: number input
   for (const item of Object.values(statListItems)) {
     const numInput = item.querySelector('input');
     numInput.addEventListener('input', handleNumEntry);
   }
 
-  // Add event listener: radio input
 for (const item of Object.values(positionRadioItems)) {
     const radioInput = item.querySelector('input');
     radioInput.addEventListener('change', handleRadioEntry);
