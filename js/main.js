@@ -24,16 +24,16 @@ initStatEntry(statListEl, positionRadioEl, statNames, positions, events);
 let chartData = calculateChartData(indivStats, events);
 
 // Get chart elements
-const strengthChartEl = document.querySelector('#strength-chart');
-const agilityChartEl = document.querySelector('#agility-chart');
-const anthroChartEl = document.querySelector('#anthro-chart');
+const pctChartEl = document.querySelector('#percentile-chart');
+/* const agilityChartEl = document.querySelector('#agility-chart');
+const anthroChartEl = document.querySelector('#anthro-chart'); */
 
 // Function to update charts when data changes
 function updateCharts() {
   const { positionMedians, playerPercentiles, playerStats, playerStatsValues } = chartData.getCalculatedData();
 
   // Update each chart with the newly calculated data
-  initChart(strengthChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, events);
+  initChart(pctChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, events);
   //initChart(agilityChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, "Agility", events);
   //initChart(anthroChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, "Anthropomorphic", events);
 }

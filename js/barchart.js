@@ -55,7 +55,35 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
             text: "Athlete Percentiles",
         },
         legend: {
-            display: false
+            display: true,
+            labels: {
+              // Define the custom legend for percentile ranges
+              generateLabels: function(chart) {
+                return [
+                  {
+                    text: '75-100th Percentile',
+                    fillStyle: 'rgba(0, 139, 139, 0.5)',
+                    strokeStyle: 'rgba(0, 139, 139, 1)',
+                    lineWidth: 1,
+                    hidden: false
+                  },
+                  {
+                    text: '50-75th Percentile',
+                    fillStyle: 'rgba(255, 215, 0, 0.5)',
+                    strokeStyle: 'rgba(255, 215, 0, 1)',
+                    lineWidth: 1,
+                    hidden: false
+                  },
+                  {
+                    text: '0-50th Percentile',
+                    fillStyle: 'rgba(250, 128, 114, 0.5)',
+                    strokeStyle: 'rgba(250, 128, 114, 1)',
+                    lineWidth: 1,
+                    hidden: false
+                  }
+                ];
+              }
+            }
           },
           tooltip: {
             usePointStyle: true,
@@ -70,7 +98,7 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
         }
 },
   indexAxis: 'y',
-  aspectRatio: 4,
+  aspectRatio: 2,
   scales: {
     x: {beginAtZero: true,
       min: 0, 
