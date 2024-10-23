@@ -2,20 +2,19 @@ import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js@4.4.4/auto/+esm';
 
 const chartInstances = {};
 
-function initChart(chartEl, positionMedians, statNames, playerStats, playerPercentiles, statGroup, events) {
-  console.log("Stat group:", statGroup);
+function initChart(chartEl, positionMedians, statNames, playerStats, playerPercentiles, events) {
 
-  const statGroups = {
+/*   const statGroups = {
     Strength: ['Bench', 'Squat', 'Power Clean', '225lb Bench'],
     Agility: ['10-Yard Dash', 'Vertical Jump (vertec)', 'Vertical Jump (mat)', 'Broad Jump', '60-Yard Shuttle', 'L Drill', 'Pro Agility', 'Flying 10'],
     Anthropomorphic: ['Height', 'Weight', 'Wingspan']
-  };
+  }; */
 
-  let filteredStats = [];
+/*   let filteredStats = [];
   let filteredMedians = [];
   let filteredPlayerStats = [];
-  let filteredPercentiles = [];
-
+  let filteredPercentiles = []; */
+/* 
   // Filter stats by statGroup
   function filterStatsByGroup() {
     const validStats = statGroups[statGroup]; // Get valid stats for the selected group
@@ -25,18 +24,18 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
     filteredPercentiles = playerPercentiles.filter((_, index) => validStats.includes(statNames[index]));
   }
 
-  filterStatsByGroup();
+  filterStatsByGroup(); */
 
   if (chartInstances[chartEl.id]) {
     chartInstances[chartEl.id].destroy();
   }
 
   const data = {
-    labels: filteredStats,
+    labels: statNames,
     datasets: [
       {
         label: 'Player Percentiles',
-        data: filteredPercentiles,
+        data: playerPercentiles,
         backgroundColor: getColor(),
         borderColor: getColor(),
         borderWidth: 1,
@@ -53,7 +52,7 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
     plugins: {
         title: {
             display: true,
-            text: statGroup,
+            text: "Athlete Percentiles",
         },
         legend: {
             display: false
@@ -90,7 +89,7 @@ function initChart(chartEl, positionMedians, statNames, playerStats, playerPerce
 
   
   function getColor() {
-    return filteredPercentiles.map(percentile => {
+    return playerPercentiles.map(percentile => {
       if (percentile >= 75) {
         return 'rgba(0, 139, 139, 0.5)';
       } else if (percentile >= 50) {

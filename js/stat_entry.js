@@ -54,7 +54,7 @@ function updatePositionTitle(position) {
         <label>
         ${stat}
         <div class="input-wrapper">
-        <input type="number" id="athlete-stat-${stat}" name="${stat}" max="1000">
+        <input type="number" id="athlete-stat-${stat}" name="${stat}" max="1000" step="any">
         <span class="unit">${unit}</span>
         </div>
         </label>
@@ -136,14 +136,12 @@ populateList(stats);
   
     numInput.setCustomValidity('');  
   
-    // Check if the value is invalid (e.g., value <= 0 or empty)
     if (!numInput.checkValidity() || numInput.value <= 0) {
       numInput.setCustomValidity('That seems high. Please enter a valid number');
       numInput.reportValidity();
       return;
     }
   
-    // Dispatch the custom event if the input is valid
     const event = new CustomEvent('statFilled', {
       detail: { statName, filled, statValue }
     });

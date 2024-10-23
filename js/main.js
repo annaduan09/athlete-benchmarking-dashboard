@@ -33,9 +33,9 @@ function updateCharts() {
   const { positionMedians, playerPercentiles, playerStats, playerStatsValues } = chartData.getCalculatedData();
 
   // Update each chart with the newly calculated data
-  initChart(strengthChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, "Strength", events);
-  initChart(agilityChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, "Agility", events);
-  initChart(anthroChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, "Anthropomorphic", events);
+  initChart(strengthChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, events);
+  //initChart(agilityChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, "Agility", events);
+  //initChart(anthroChartEl, positionMedians, playerStats, playerStatsValues, playerPercentiles, "Anthropomorphic", events);
 }
 
 // Listen for changes in stat or position
